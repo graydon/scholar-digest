@@ -1,0 +1,5 @@
+springer.com
+acm.org
+ieee.org
+sciencedirect.com
+patents.google.com
