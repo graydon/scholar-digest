@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #
 # Copyright 2018 Graydon Hoare <graydon@pobox.com>
 # MIT license.
@@ -48,8 +48,8 @@ from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
 
-import urlparse
-from HTMLParser import HTMLParser
+import urllib
+from html.parser import HTMLParser
 import base64
 import re
 
@@ -104,8 +104,8 @@ class ScholarScraper(HTMLParser):
         attr_dict = dict(attrs)
         if tag == 'a' and attr_dict.get('class', None) == 'gse_alrt_title':
             scholar_url = attr_dict.get('href', '')
-            parsed = urlparse.urlparse(scholar_url)
-            qdict = urlparse.parse_qs(parsed.query)
+            parsed = urllib.parse.urlparse(scholar_url)
+            qdict = urllib.parse.parse_qs(parsed.query)
             if 'url' in qdict:
                 self.pending_url = str(qdict['url'][0])
 
@@ -122,7 +122,7 @@ class ScholarScraper(HTMLParser):
                 paper.note_subject(self.pending_subject)
 
     def set_subject(self, subject):
-        self.pending_subject = subject
+        self.pending_subject = subject.decode("utf-8")
 
     def dump(self):
 
@@ -173,7 +173,7 @@ def main():
         subj = [h['value'] for h in payload['headers'] if h['name']=='Subject'][0]
         scraper.set_subject(subj.encode('utf-8'))
         v = payload['body']['data']
-        scraper.feed(base64.urlsafe_b64decode(str(v)))
+        scraper.feed(base64.urlsafe_b64decode(str(v)).decode("utf-8"))
 
     scraper.dump()
 
