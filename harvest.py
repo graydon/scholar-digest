@@ -56,9 +56,9 @@ import re
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
 
-author_rx = re.compile("^(.*) - new articles$")
-citing_rx = re.compile("^(.*) - new citations$")
-related_rx = re.compile("^(.*) - new related research$")
+author_rx = re.compile("^(.*) [-–] new articles$")
+citing_rx = re.compile("^(.*) [-–] new citations$")
+related_rx = re.compile("^(.*) [-–] new related research$")
 
 class Paper:
     def __init__(self, url, desc):
